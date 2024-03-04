@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+
+  api:
+    image: paraformer:v1
+    volumes:
+      - ./data:/root/data
+      - ./cache:/root/cache
+    ports:
+      - "8000:8000"
+    command: ["python", "api.py", "-s", "0.0.0.0", "-p", "8000"]
+    restart: unless-stopped
+
