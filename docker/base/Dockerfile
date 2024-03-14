@@ -5,9 +5,9 @@ ARG DEBIAN_FRONTEND=noninteractive
 WORKDIR /root
 
 # 设置字符集
-ENV LANG=C.UTF-8
-ENV LANGUAGE=C.UTF-8
-ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8 \
+    LANGUAGE=C.UTF-8 \
+    LC_ALL=C.UTF-8
 
 # apt 换源
 RUN sed -i 's@//.*archive.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.list && \
@@ -39,7 +39,8 @@ RUN tar -zxvf Python-$PYTHON.tgz && \
     rm -f /root/Python-$PYTHON.tgz
 
 # 下载 poetry
-ENV PATH=/root/.local/bin:$PATH
-RUN curl -sSL https://install.python-poetry.org | python - && \
+RUN pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple && \
+    pip install -U pip setuptools && \
+    pip install poetry && \
     poetry completions bash >> ~/.bash_completion
 
